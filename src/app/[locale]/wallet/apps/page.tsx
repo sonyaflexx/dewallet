@@ -1,7 +1,28 @@
+'use client'
+
 import AppList from "@/components/AppList";
 import { appArray } from "./appArray";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Apps() {
+  const router = useRouter();
+
+  useEffect(() => {
+      if (typeof window !== 'undefined' && window.Telegram && window.Telegram.WebApp) {
+          const tg = window.Telegram.WebApp;
+
+          tg.BackButton.isVisible = true;
+          tg.BackButton.onClick(() => {
+              router.push('/wallet');
+          })
+
+          return () => {
+              tg.BackButton.isVisible = false;
+          };
+      }
+  }, [router]);
+
     const combineApps = (appArray: any) => {
         const uniqueApps = new Map();
       

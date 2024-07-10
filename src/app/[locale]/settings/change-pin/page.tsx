@@ -3,7 +3,7 @@
 import PinInput from "@/components/PinInput";
 import PinStore from "@/store/PinStore";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
 
@@ -15,6 +15,21 @@ const ChangePin = observer(() => {
   const [status, setStatus] = useState('');
   const [stage, setStage] = useState(1);
   const router = useRouter();
+
+  useEffect(() => {
+      if (typeof window !== 'undefined' && window.Telegram && window.Telegram.WebApp) {
+          const tg = window.Telegram.WebApp;
+
+          tg.BackButton.isVisible = true;
+          tg.BackButton.onClick(() => {
+              router.back();
+          })
+
+          return () => {
+              tg.BackButton.isVisible = false;
+          };
+      }
+  }, [router]);
 
   const handleSetPin = () => {
     setStatus('success');

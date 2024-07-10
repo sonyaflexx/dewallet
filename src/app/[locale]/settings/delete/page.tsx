@@ -14,6 +14,21 @@ const DeleteAccount = observer(() => {
   const [status, setStatus] = useState('');
   const router = useRouter();
 
+  useEffect(() => {
+      if (typeof window !== 'undefined' && window.Telegram && window.Telegram.WebApp) {
+          const tg = window.Telegram.WebApp;
+
+          tg.BackButton.isVisible = true;
+          tg.BackButton.onClick(() => {
+              router.back();
+          })
+
+          return () => {
+              tg.BackButton.isVisible = false;
+          };
+      }
+  }, [router]);
+
   const handlePin = async () => {
     if (pin === PinStore.pin) {
       setStatus('success');

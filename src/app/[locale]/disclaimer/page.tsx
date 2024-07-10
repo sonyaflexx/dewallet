@@ -1,4 +1,26 @@
+'use client'
+
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+
 export default function Disclaimer() {
+    const router = useRouter();
+
+    useEffect(() => {
+        if (typeof window !== 'undefined' && window.Telegram && window.Telegram.WebApp) {
+            const tg = window.Telegram.WebApp;
+
+            tg.BackButton.isVisible = true;
+            tg.BackButton.onClick(() => {
+                router.back();
+            })
+
+            return () => {
+                tg.BackButton.isVisible = false;
+            };
+        }
+    }, [router]);
+
     return (
         <main className="flex flex-col gap-4 text-sm p-4">
             <h1>Terms of use</h1>

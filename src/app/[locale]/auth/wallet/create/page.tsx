@@ -25,6 +25,9 @@ export default function Safety() {
             };
 
             tg.BackButton.isVisible = true;
+            tg.BackButton.onClick(() => {
+                router.back();
+            })
 
             tg.MainButton.text = t('proceed');
             tg.MainButton.show();
@@ -41,6 +44,7 @@ export default function Safety() {
 
             return () => {
                 tg.MainButton.hide();
+                tg.BackButton.isVisible = false;
             };
         }
     }, [agree, router, t]);

@@ -3,7 +3,8 @@
 import DangerIcon from "@/components/icons/DangerIcon";
 import modalStore, { TokenSelectModalConfig } from "@/store/ModalStore";
 import Image from "next/image";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 const tokenList = [
@@ -79,6 +80,23 @@ export default function Swap() {
     const [toToken, setToToken] = useState(tokenList[1]);
     const [amount, setAmount] = useState('');
     const [isSwapped, setIsSwapped] = useState(false);
+
+    const router = useRouter();
+
+    useEffect(() => {
+        if (typeof window !== 'undefined' && window.Telegram && window.Telegram.WebApp) {
+            const tg = window.Telegram.WebApp;
+
+            tg.BackButton.isVisible = true;
+            tg.BackButton.onClick(() => {
+                router.push('/wallet');
+            })
+
+            return () => {
+                tg.BackButton.isVisible = false;
+            };
+        }
+    }, [router]);
 
     const swapTokens = () => {
         const tempToken = fromToken;

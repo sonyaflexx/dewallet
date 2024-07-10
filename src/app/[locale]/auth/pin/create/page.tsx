@@ -19,6 +19,21 @@ const PinCreate = observer(() => {
 
   const isConfirming = PinStore.confirmingPin && PinStore.confirmingPin !== '';
 
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.Telegram && window.Telegram.WebApp) {
+        const tg = window.Telegram.WebApp;
+
+        tg.BackButton.isVisible = true;
+        tg.BackButton.onClick(() => {
+            router.back();
+        })
+
+        return () => {
+            tg.BackButton.isVisible = false;
+        };
+    }
+}, [router]);
+
   const handleSetConfirmingPin = () => {
     setStatus('success');
     setTimeout(() => {

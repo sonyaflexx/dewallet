@@ -17,6 +17,11 @@ export default function Mnemonics() {
     useEffect(() => {
         if (typeof window !== 'undefined' && window.Telegram && window.Telegram.WebApp) {
             const tg = window.Telegram.WebApp;
+
+            tg.BackButton.isVisible = true;
+            tg.BackButton.onClick(() => {
+                router.push('/');
+            })
     
             tg.MainButton.text = t('imSaved');
             tg.MainButton.color = '#007aff';
@@ -25,6 +30,7 @@ export default function Mnemonics() {
     
             return () => {
                 tg.MainButton.hide();
+                tg.BackButton.isVisible = false;
             };
         }
     }, []);

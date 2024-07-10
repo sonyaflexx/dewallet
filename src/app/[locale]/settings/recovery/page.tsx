@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import WalletStore from "@/store/WalletStore";
 import { useTranslation } from "react-i18next";
+import { useRouter } from "next/navigation";
 
 const Recovery = observer(() => {
   const { t } = useTranslation();
@@ -13,6 +14,23 @@ const Recovery = observer(() => {
   const [status, setStatus] = useState('');
   const [isLogin, setIsLogin] = useState(false);
   const [mnemonics, setMnemonics] = useState([]);
+
+  const router = useRouter();
+
+  useEffect(() => {
+      if (typeof window !== 'undefined' && window.Telegram && window.Telegram.WebApp) {
+          const tg = window.Telegram.WebApp;
+
+          tg.BackButton.isVisible = true;
+          tg.BackButton.onClick(() => {
+              router.back();
+          })
+
+          return () => {
+              tg.BackButton.isVisible = false;
+          };
+      }
+  }, [router]);
 
   const handlePin = async () => {
     if (pin === PinStore.pin) {

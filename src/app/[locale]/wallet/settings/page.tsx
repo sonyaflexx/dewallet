@@ -6,11 +6,27 @@ import WalletStore from "@/store/WalletStore";
 import { observer } from "mobx-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 const Settings = () => {
     const { t } = useTranslation();
     const router = useRouter();
+
+    useEffect(() => {
+        if (typeof window !== 'undefined' && window.Telegram && window.Telegram.WebApp) {
+            const tg = window.Telegram.WebApp;
+
+            tg.BackButton.isVisible = true;
+            tg.BackButton.onClick(() => {
+                router.push('/wallet');
+            })
+
+            return () => {
+                tg.BackButton.isVisible = false;
+            };
+        }
+    }, [router]);
 
     const { language, version } = settingsStore;
 

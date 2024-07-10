@@ -26,6 +26,21 @@ export default function ImportWallet() {
     const [inputValid, setInputValid] = useState<any>(Array.from({ length: 24 }).fill(false));
     const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
 
+    useEffect(() => {
+        if (typeof window !== 'undefined' && window.Telegram && window.Telegram.WebApp) {
+            const tg = window.Telegram.WebApp;
+
+            tg.BackButton.isVisible = true;
+            tg.BackButton.onClick(() => {
+                router.back();
+            })
+
+            return () => {
+                tg.BackButton.isVisible = false;
+            };
+        }
+    }, [router]);
+
     const handleInputChange = (index: number, value: string) => {
         const newInputValues = [...inputValues];
         newInputValues[index] = value;
