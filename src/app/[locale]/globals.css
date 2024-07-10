@@ -61,3 +61,7 @@ body::before {
 .shake-horizontal {
   animation: shake 0.5s;
 }
+
+* {
+  scrollbar-width: none;
+}
