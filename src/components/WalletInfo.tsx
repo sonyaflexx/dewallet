@@ -25,19 +25,30 @@ const WalletInfo: React.FC = observer(() => {
 
 
     useEffect(() => {
-        const getUserInfo = () => {
+        const getUserInfo = async () => {
             if (typeof window !== 'undefined' && window.Telegram && window.Telegram.WebApp) {
                 const user = window.Telegram.WebApp.initDataUnsafe?.user;
 
                 if (user) {
-                    // Получение информации о пользователе
-                    window.Telegram.WebApp.getUser(user.id, (user: any) => {
-                        console.log('User Info:', user);
-                        setUsername(user.username || 'Unknown');
-                        if (user.profilePhoto && user.profilePhoto.small) {
-                            setAvatarUrl(user.profilePhoto.small);
+                    setUsername(user.username || 'Unknown');
+
+                    const botToken = '7273561397:AAEuKLQinLo2YfRkZHQbnIAYaNTpATg_Xms';
+                    const response = await fetch(`https://api.telegram.org/bot${botToken}/getUserProfilePhotos?user_id=${user.id}`);
+                    const data = await response.json();
+
+                    if (data.ok && data.result.photos.length > 0) {
+                        const profilePhotos = data.result.photos;
+                        const avatarFileId = profilePhotos[0][0].file_id;
+
+                        const fileResponse = await fetch(`https://api.telegram.org/bot${botToken}/getFile?file_id=${avatarFileId}`);
+                        const fileData = await fileResponse.json();
+
+                        if (fileData.ok) {
+                            const filePath = fileData.result.file_path;
+                            const avatarUrl = `https://api.telegram.org/file/bot${botToken}/${filePath}`;
+                            setAvatarUrl(avatarUrl as any);
                         }
-                    });
+                    }
                 }
             } else {
                 console.error('Telegram WebApp is not defined');
