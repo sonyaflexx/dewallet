@@ -1,3 +1,5 @@
+'use client'
+
 import axios from 'axios';
 import WalletStore from './WalletStore';
 import { observable, action } from 'mobx';
@@ -18,7 +20,7 @@ class CreateWalletStore {
         address: Array.prototype.map.call(keyPairResult.publicKey, x => ('00' + x.toString(16)).slice(-2)).join(''),
         privateKey: Array.prototype.map.call(keyPairResult.secretKey, x => ('00' + x.toString(16)).slice(-2)).join('')
       };
-      console.log(this.temporaryWallet);
+      console.log(this.temporaryWallet, 22222);
     } catch (error) {
       console.error('Failed to generate wallet:', error);
       this.temporaryWallet = null;
@@ -26,9 +28,10 @@ class CreateWalletStore {
   }
 
   @action async createWallet() {
+    console.log('Create...');
     if (this.temporaryWallet) {
+      console.log('Nice');
       WalletStore.setWallet(this.temporaryWallet);
-      
       try {
         await axios.post('/api/wallet/create', this.temporaryWallet);
         console.log('Wallet successfully saved to the database.');
