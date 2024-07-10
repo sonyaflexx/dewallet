@@ -25,26 +25,29 @@ const WalletInfo: React.FC = observer(() => {
 
 
     useEffect(() => {
-        if (typeof window !== 'undefined' && window.Telegram && window.Telegram.WebApp) {
         const getUserInfo = () => {
-            const userId = window.Telegram.WebApp.initData?.tgUserId; 
+            if (typeof window !== 'undefined' && window.Telegram && window.Telegram.WebApp) {
+                const user = window.Telegram.WebApp.initDataUnsafe?.user;
 
-            if (userId) {
-            window.Telegram.WebApp.getUser(userId, (user: any) => {
-                console.log('User Info:', user);
-                setUsername(user.username || 'Unknown'); 
-                if (user.profilePhoto && user.profilePhoto.small) {
-                setAvatarUrl(user.profilePhoto.small);
+                if (user) {
+                    // Получение информации о пользователе
+                    window.Telegram.WebApp.getUser(user.id, (user: any) => {
+                        console.log('User Info:', user);
+                        setUsername(user.username || 'Unknown');
+                        if (user.profilePhoto && user.profilePhoto.small) {
+                            setAvatarUrl(user.profilePhoto.small);
+                        }
+                    });
                 }
-            });
+            } else {
+                console.error('Telegram WebApp is not defined');
             }
         };
 
         getUserInfo();
 
-        window.Telegram.WebApp.ready();
-        } else {
-        console.error('Telegram WebApp is not defined');
+        if (typeof window !== 'undefined' && window.Telegram && window.Telegram.WebApp) {
+            window.Telegram.WebApp.ready();
         }
     }, []);
 
