@@ -2,6 +2,7 @@
 
 import Checkbox from "@/components/inputs/CheckBox";
 import { useCreateWallet } from "@/hooks/useCreateWallet";
+import createWalletStore from "@/store/CreateWalletStore";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -11,11 +12,11 @@ export default function Mnemonics() {
     const { t } = useTranslation();
 
     const router = useRouter();
-    const { wallet, generateWallet } = useCreateWallet();
+    const wallet = createWalletStore.temporaryWallet;
     const [mnemonics, setMnemonics] = useState([]);
 
     useEffect(() => {
-        generateWallet()
+        createWalletStore.generateWallet();
     }, [])
 
     useEffect(() => {

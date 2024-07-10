@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
+import createWalletStore from "@/store/CreateWalletStore";
 
 const PinCreate = observer(() => {
   const { t } = useTranslation();
@@ -14,7 +15,6 @@ const PinCreate = observer(() => {
   const [pin, setPin] = useState('');
   const [repeatPin, setRepeatPin] = useState('');
   const [status, setStatus] = useState('');
-  const { createWallet } = useCreateWallet();
   const router = useRouter();
 
   const isConfirming = PinStore.confirmingPin && PinStore.confirmingPin !== '';
@@ -45,7 +45,7 @@ const PinCreate = observer(() => {
   const handleCreatePin = async () => {
     if (repeatPin === PinStore.confirmingPin) {
       setStatus('success');
-      createWallet();
+      createWalletStore.createWallet();
       PinStore.setPin(repeatPin);
       router.push('/wallet');
     } else {
