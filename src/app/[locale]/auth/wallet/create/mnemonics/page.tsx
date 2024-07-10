@@ -3,12 +3,13 @@
 import Checkbox from "@/components/inputs/CheckBox";
 import { useCreateWallet } from "@/hooks/useCreateWallet";
 import createWalletStore from "@/store/CreateWalletStore";
+import { observer } from "mobx-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-export default function Mnemonics() {
+const Mnemonics = () => {
     const { t } = useTranslation();
 
     const router = useRouter();
@@ -66,3 +67,5 @@ export default function Mnemonics() {
         </main>
     );
 }
+
+export default observer(Mnemonics);
