@@ -88,7 +88,7 @@ const WalletInfo: React.FC = observer(() => {
                 </span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M18 10L12 16L6 10" stroke="#F7F8F9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path></svg>
             </button>
-            <div className={`${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'} wallet-info-dropdown transition-opacity z-20 top-4 w-[90vw] rounded-[28px] bg-tertiary-bg bg-opacity-40 backdrop-blur-2xl max-w-[340px] left-1/2 -translate-x-1/2 absolute px-4 pt-3 pb-[19px]`}>
+            <div className={`${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'} wallet-info-dropdown transition-opacity z-20 top-4 w-[90vw] rounded-[28px] bg-tertiary-bg bg-opacity-40 backdrop-blur-2xl max-w-[340px] left-1/2 -translate-x-1/2 absolute px-4 pt-3 pb-[19px]`} style={{ WebkitBackdropFilter: 'blur(40px)', backdropFilter: 'blur(40px)' }}>
                 <div onClick={toggleDropdown} className='flex justify-center items-center gap-3'>
                     {avatarUrl ? (
                         <img src={avatarUrl} alt='User Avatar' className='size-12 rounded-full bg-zinc-800' />

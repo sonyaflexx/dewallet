@@ -11,7 +11,8 @@ export async function POST(req: Request) {
         private_key: privateKey,
         mnemonic: mnemonic.phrase,
         network: 'TON',
-        received: true
+        received: true,
+        updatedAt: new Date()
       },
     });
 

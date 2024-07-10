@@ -3,20 +3,27 @@ import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import resources from './locales';
 
+export const i18nConfig = {
+  locales: ['en', 'ru'],
+  defaultLocale: 'en',
+};
+
 i18next 
   .use(initReactI18next)
-  .use(LanguageDetector) 
   .init({
-    resources, 
-    fallbackLng: 'en',
+    resources,
+    fallbackLng: i18nConfig.defaultLocale,
     interpolation: {
       escapeValue: false,
     },
     detection: {
-      order: ['localStorage', 'path'],
+      order: ['localStorage', 'cookie', 'navigator', 'htmlTag', 'path', 'subdomain'],
       caches: ['cookie', 'localStorage'],
     },
-    debug: true, 
+    debug: true,
+  }, (err, t) => {
+    if (err) return console.error(err);
+    console.log('i18next initialized with language:', i18next.language);
   });
 
 export default i18next;
