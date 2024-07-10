@@ -11,8 +11,12 @@ export default function Mnemonics() {
     const { t } = useTranslation();
 
     const router = useRouter();
-    const { wallet, createWallet } = useCreateWallet();
+    const { wallet, generateWallet } = useCreateWallet();
     const [mnemonics, setMnemonics] = useState([]);
+
+    useEffect(() => {
+        generateWallet()
+    }, [])
 
     useEffect(() => {
         if (typeof window !== 'undefined' && window.Telegram && window.Telegram.WebApp) {
