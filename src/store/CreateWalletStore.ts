@@ -2,13 +2,17 @@
 
 import axios from 'axios';
 import WalletStore from './WalletStore';
-import { observable, action } from 'mobx';
+import { observable, action, makeAutoObservable } from 'mobx';
 import { mnemonicNew, mnemonicToWalletKey } from '@ton/crypto';
 
 class CreateWalletStore {
-  @observable temporaryWallet : any = null;
+  temporaryWallet : any = null;
 
-  @action async generateWallet() {
+  constructor() {
+    makeAutoObservable(this);
+  }
+
+  generateWallet = async () => {
     try {
       const mnemonicArrayResult = await mnemonicNew(24);
       const keyPairResult = await mnemonicToWalletKey(mnemonicArrayResult);
@@ -27,7 +31,7 @@ class CreateWalletStore {
     }
   }
 
-  @action async createWallet() {
+  createWallet = async () => {
     console.log('Create...');
     if (this.temporaryWallet) {
       console.log('Nice');
