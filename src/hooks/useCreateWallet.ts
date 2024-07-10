@@ -18,7 +18,7 @@ export const useCreateWallet = () => {
           address: Array.prototype.map.call(keyPairResult.publicKey, x => ('00' + x.toString(16)).slice(-2)).join(''),
           privateKey: Array.prototype.map.call(keyPairResult.secretKey, x => ('00' + x.toString(16)).slice(-2)).join('')
         };
-
+        console.log(newWallet)
         setWallet(newWallet);
       } catch (error) {
         console.error('Failed to generate wallet:', error);
@@ -26,6 +26,7 @@ export const useCreateWallet = () => {
     };
 
   const createWallet = async () => {
+    console.log(wallet)
     if (wallet) {
       WalletStore.setWallet(wallet);
       
