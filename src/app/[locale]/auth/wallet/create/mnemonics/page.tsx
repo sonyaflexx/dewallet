@@ -19,6 +19,7 @@ export default function Mnemonics() {
             const tg = window.Telegram.WebApp;
     
             tg.MainButton.text = t('imSaved');
+            tg.MainButton.color = '#007aff';
             tg.MainButton.show();
             tg.MainButton.onClick(handleCreateWallet);
     
