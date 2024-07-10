@@ -5,13 +5,25 @@ import DeployNotification from "@/components/DeployNotification";
 import Checkbox from "@/components/inputs/CheckBox";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 export default function Home() {
   const { t } = useTranslation('common');
 
   const [agree, setAgree] = useState(false)
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.Telegram && window.Telegram.WebApp) {
+        const tg = window.Telegram.WebApp;
+
+        tg.MainButton.hide();
+
+        return () => {
+          tg.MainButton.hide();
+        };
+    }
+}, []);
 
   return (
     <main className="flex min-h-screen flex-col items-center px-4 pt-[10px]">
