@@ -9,7 +9,7 @@ export async function POST(req: Request) {
       data: {
         address,
         private_key: privateKey,
-        mnemonic: mnemonic.phrase,
+        mnemonic: mnemonic,
         network: 'TON',
         received: true,
         updatedAt: new Date()

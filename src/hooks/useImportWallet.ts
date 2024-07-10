@@ -29,7 +29,7 @@ export const useImportWallet = () => {
       try {
         await axios.post('/api/wallet/import', {
           privateKey: importedWallet.privateKey,
-          mnemonic: mnemonics,
+          mnemonic: importedWallet.mnemonic.phrase,
           address: importedWallet.address
         });
       } catch (error) {
