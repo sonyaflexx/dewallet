@@ -19,24 +19,27 @@ export default function Safety() {
     useEffect(() => {
         if (typeof window !== 'undefined' && window.Telegram && window.Telegram.WebApp) {
             const tg = window.Telegram.WebApp;
-    
+
+            const handleClick = () => {
+                router.push('/auth/wallet/create/mnemonics');
+            };
+
             tg.MainButton.text = t('proceed');
             tg.MainButton.show();
-            tg.MainButton.onClick(() => {
-                router.push('/auth/wallet/create/mnemonics');
-            });
-    
+
+            tg.MainButton.onClick(handleClick);
+
             if (agree) {
                 tg.MainButton.enable();
             } else {
                 tg.MainButton.disable();
             }
-    
+
             return () => {
                 tg.MainButton.hide();
             };
         }
-      }, []); 
+    }, [agree, router, t]);
 
   return (
     <main className="flex min-h-screen flex-col items-center px-4 pt-[10px]">
