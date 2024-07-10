@@ -24,11 +24,7 @@ export default function Safety() {
                 router.push('/auth/wallet/create/mnemonics');
             };
 
-            tg.NavigationButton.icon = 'https://cdn.icon-icons.com/icons2/930/PNG/512/arrow-left_icon-icons.com_72376.png';
-            tg.NavigationButton.show();
-            tg.NavigationButton.onClick(() => {
-                router.back();
-            });
+            tg.BackButton.isVisible = true;
 
             tg.MainButton.text = t('proceed');
             tg.MainButton.show();
