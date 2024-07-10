@@ -32,7 +32,7 @@ const WalletInfo: React.FC = observer(() => {
                 if (user) {
                     setUsername(user.username || 'Unknown');
 
-                    const botToken = '7273561397:AAEuKLQinLo2YfRkZHQbnIAYaNTpATg_Xms';
+                    const botToken = process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN;
                     const response = await fetch(`https://api.telegram.org/bot${botToken}/getUserProfilePhotos?user_id=${user.id}`);
                     const data = await response.json();
 
