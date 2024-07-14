@@ -7,14 +7,14 @@ const TelegramWebApp = () => {
     if (typeof window !== 'undefined' && window.Telegram && window.Telegram.WebApp) {
       const tg = window.Telegram.WebApp;
 
-      tg.expand(); // Ensure the web app is expanded to cover the full screen
+      tg.expand(); 
 
-      tg.onEvent('themeChanged', setTheme); // React to theme changes
+      tg.onEvent('themeChanged', setTheme); 
 
-      setTheme(); // Set the theme on initial load
+      setTheme();
 
       return () => {
-        tg.offEvent('themeChanged', setTheme); // Cleanup on component unmount
+        tg.offEvent('themeChanged', setTheme); 
       };
     }
   }, []);
@@ -24,8 +24,7 @@ const TelegramWebApp = () => {
       const tg = window.Telegram.WebApp;
       const theme = tg.themeParams;
 
-      // Set background color according to the theme
-      tg.setBackground("#222325");
+      // tg.setBackground("#222325");
     }
   };
 

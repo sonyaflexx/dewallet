@@ -1,60 +1,20 @@
 'use client'
 
+import tokenStore from '@/store/TokenStore';
+import { observer } from 'mobx-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const tokenList = [
-  {
-    id: 1,
-    logoUrl: '	https://v2.delabwallet.com/0068d136b4f5ffc93f0073cf3ef223fd.png',
-    name: 'TON',
-    price: 4.34,
-    change_24h: 0.43,
-    amount: 0,
-  },
-  {
-    id: 2,
-    logoUrl: 'https://v2.delabwallet.com/d4dc5bc9cbc0d70f98be41d9f234cc67.png',
-    name: 'DFC',
-    price: 0.97,
-    change_24h: 9.25,
-    amount: 0,
-  },
-  {
-    id: 3,
-    logoUrl: 'https://v2.delabwallet.com/cea435ee35ddd568d2bb56ae5f266276.png',
-    name: 'ARBUZ',
-    price: 0.33,
-    change_24h: -21.89,
-    amount: 0,
-  },
-  {
-    id: 4,
-    logoUrl: 'https://v2.delabwallet.com/111c157feb06ba4d0020760c01e89756.png',
-    name: 'KINGY',
-    price: 0.21,
-    change_24h: 1.59,
-    amount: 0,
-  },
-  {
-    id: 5,
-    logoUrl: 'https://v2.delabwallet.com/a99afedca980663059d5e21ce99cfbf3.png',
-    name: 'PRIVATE',
-    price: 0.005,
-    change_24h: -1.88,
-    amount: 0,
-  },
-];
-
-const AssetsList = () => {
+const AssetsList = observer(() => {
   const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState('');
+  const tokenList = tokenStore.tokens;
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
 
-  const filteredTokens = tokenList.filter((token) =>
+  const filteredTokens = tokenList.filter((token: any) =>
     token.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -76,7 +36,7 @@ const AssetsList = () => {
         )}
       </div>
 
-      {filteredTokens.map((token) => (
+      {filteredTokens.map((token: any) => (
         <div key={token.id} className="flex items-center border-b last:border-0 border-border-dark px-[10px] pt-4 pb-[17px]">
             <div className='flex items-center gap-[10px] w-full'>
                 <img src={token.logoUrl} alt={token.name} className="size-9 rounded-full" />
@@ -86,7 +46,7 @@ const AssetsList = () => {
                 </div>
                 <div className='ml-auto flex flex-col text-right'>
                     <span className='text-placeholder-primary text-[15px]'>{token.amount.toLocaleString('ru-RU')}</span>
-                    <span className='leading-none text-placeholder-secondary text-[15px]'>${(token.amount * token.price).toLocaleString('ru-RU')}</span>
+                    <span className='leading-none text-placeholder-secondary text-[15px]'>${new Intl.NumberFormat('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(token.amount * token.price).replace(/,/g, '.')}</span>
                 </div>
             </div>
         </div>
@@ -97,6 +57,6 @@ const AssetsList = () => {
       )}
     </div>
   );
-};
+});
 
 export default AssetsList;

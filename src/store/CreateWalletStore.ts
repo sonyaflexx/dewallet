@@ -4,6 +4,7 @@ import axios from 'axios';
 import WalletStore from './WalletStore';
 import { observable, action, makeAutoObservable } from 'mobx';
 import { mnemonicNew, mnemonicToWalletKey } from '@ton/crypto';
+import { WalletContractV4 } from '@ton/ton';
 
 class CreateWalletStore {
   temporaryWallet : any = null;
@@ -16,12 +17,13 @@ class CreateWalletStore {
     try {
       const mnemonicArrayResult = await mnemonicNew(24);
       const keyPairResult = await mnemonicToWalletKey(mnemonicArrayResult);
+      const wallet = WalletContractV4.create({ publicKey: keyPairResult.publicKey, workchain: 0 });
 
       this.temporaryWallet = {
         mnemonic: {
           phrase: mnemonicArrayResult.join(' ')
         },
-        address: Array.prototype.map.call(keyPairResult.publicKey, x => ('00' + x.toString(16)).slice(-2)).join(''),
+        address: wallet.address,
         privateKey: Array.prototype.map.call(keyPairResult.secretKey, x => ('00' + x.toString(16)).slice(-2)).join('')
       };
       console.log(this.temporaryWallet, 22222);

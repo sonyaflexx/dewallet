@@ -44,8 +44,8 @@ const TokenList = ({ tokenList, handle }: { tokenList: Token[], handle: (token: 
                       <span className='leading-none text-placeholder-secondary text-[15px]'>${token.price.toLocaleString('ru-RU')} <span className={`text-[13px] ${token.change_24h >= 0 ? 'text-accent-success' : 'text-accent-error'}`}>{token.change_24h >= 0 && '+'}{token.change_24h}%</span></span>
                   </div>
                   <div className='ml-auto flex flex-col text-right'>
-                      <span className='text-placeholder-primary text-[15px]'>{token.amount.toLocaleString('ru-RU')}</span>
-                      <span className='leading-none text-placeholder-secondary text-[15px]'>${(token.amount * token.price).toLocaleString('ru-RU')}</span>
+                      <span className='text-placeholder-primary text-[15px]'>{new Intl.NumberFormat('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(token.amount).replace(/,/g, '.')}</span>
+                      <span className='leading-none text-placeholder-secondary text-[15px]'>${new Intl.NumberFormat('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(token.amount * token.price).replace(/,/g, '.')}</span>
                   </div>
               </div>
           </div>
