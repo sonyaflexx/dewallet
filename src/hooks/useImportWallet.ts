@@ -6,7 +6,8 @@ import { mnemonicToWalletKey } from '@ton/crypto';
 import { telegramAlert } from '@/lib/telegramAlert';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/navigation';
-import { WalletContractV4 } from '@ton/ton';
+import { WalletContractV3R1, WalletContractV3R2, WalletContractV4 } from '@ton/ton';
+import settingsStore from '@/store/SettingsStore';
 
 export const useImportWallet = () => {
   const { t } = useTranslation();
@@ -15,7 +16,15 @@ export const useImportWallet = () => {
   const importWallet = async (mnemonics: string[]) => {
     try {
       const keyPairResult = await mnemonicToWalletKey(mnemonics);
-      const wallet = WalletContractV4.create({ publicKey: keyPairResult.publicKey, workchain: 0 });
+      let wallet = null;
+
+        if (settingsStore.version === 'Wallet V3R1') {
+          wallet = WalletContractV3R1.create({ publicKey: keyPairResult.publicKey, workchain: 0 });
+        } else if (settingsStore.version === 'Wallet V3R2') {
+          wallet = WalletContractV3R2.create({ publicKey: keyPairResult.publicKey, workchain: 0 });
+        } else {
+          wallet = WalletContractV4.create({ publicKey: keyPairResult.publicKey, workchain: 0 });
+        }
 
       const importedWallet = {
         mnemonic: {

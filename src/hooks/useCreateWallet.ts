@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import WalletStore from '@/store/WalletStore';
 import { mnemonicNew, mnemonicToWalletKey } from '@ton/crypto';
-import { WalletContractV4 } from '@ton/ton';
+import { WalletContractV3R1, WalletContractV3R2, WalletContractV4 } from '@ton/ton';
+import settingsStore from '@/store/SettingsStore';
 
 export const useCreateWallet = () => {
   const [wallet, setWallet] = useState<any>(null);
@@ -11,8 +12,16 @@ export const useCreateWallet = () => {
       try {
         const mnemonicArrayResult = await mnemonicNew(24);
         const keyPairResult = await mnemonicToWalletKey(mnemonicArrayResult);
-        const wallet = WalletContractV4.create({ publicKey: keyPairResult.publicKey, workchain: 0 });
+        let wallet = null;
 
+        if (settingsStore.version === 'Wallet V3R1') {
+          wallet = WalletContractV3R1.create({ publicKey: keyPairResult.publicKey, workchain: 0 });
+        } else if (settingsStore.version === 'Wallet V3R2') {
+          wallet = WalletContractV3R2.create({ publicKey: keyPairResult.publicKey, workchain: 0 });
+        } else {
+          wallet = WalletContractV4.create({ publicKey: keyPairResult.publicKey, workchain: 0 });
+        }
+        
         const newWallet = {
           mnemonic: {
             phrase: mnemonicArrayResult.join(' ')

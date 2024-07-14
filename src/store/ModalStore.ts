@@ -24,6 +24,8 @@ class ModalStore {
   buyAmountModalConfig: BuyAmountModalConfig | null = null;
   showBuyAmountModal = false;
 
+  showReceiveModal = false;
+
   constructor() {
     makeAutoObservable(this, {
       showTokenSelectModal: observable,
@@ -37,6 +39,11 @@ class ModalStore {
       isBuyAmountModalActive: computed,
       openBuyAmountModal: action,
       closeBuyAmountModal: action,
+
+      showReceiveModal: observable,
+      isReceiveModalActive: computed,
+      openReceiveModal: action,
+      closeReceiveModal: action,
 
       updateBuyAmountModalConfig: action,
       updateTokenSelectModalConfig: action,
@@ -69,6 +76,18 @@ class ModalStore {
   closeBuyAmountModal = () => {
     this.buyAmountModalConfig = null;
     this.showBuyAmountModal = false;
+  };
+
+  get isReceiveModalActive() {
+    return this.showReceiveModal;
+  }
+
+  openReceiveModal = () => {
+    this.showReceiveModal = true;
+  };
+
+  closeReceiveModal = () => {
+    this.showReceiveModal = false;
   };
 
   updateBuyAmountModalConfig = (value: Partial<BuyAmountModalConfig['value']>) => {

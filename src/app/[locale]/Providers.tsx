@@ -9,6 +9,7 @@ import { I18nextProvider } from 'react-i18next';
 import i18n from '@/i18n';
 import BuyAmountModal from '@/components/modals/BuyAmountModal';
 import TelegramWebApp from '@/components/TelegramWebApp';
+import ReceiveModal from '@/components/modals/ReceiveModal';
 
 export default function Providers({ children }: { children: ReactNode }) {
   const router = useRouter();
@@ -69,6 +70,7 @@ export default function Providers({ children }: { children: ReactNode }) {
   return (
     <I18nextProvider i18n={i18n} defaultNS={'common'}>
       <Provider {...{ WalletStore }}>
+        <ReceiveModal />
         <TokenSelectModal />
         <BuyAmountModal />
         {children}

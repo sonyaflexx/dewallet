@@ -55,8 +55,8 @@ const WalletActions = () => {
     return (
         <div className="w-full z-10">
             <ul className="flex w-full justify-between items-center px-2 py-[10px] rounded-[28px] bg-border bg-opacity-40 backdrop-blur-xl">
-                <li className="py-[5px] px-4 flex flex-col gap-2 items-center">
-                    <Button onClick={handleBuySelectModal} color="primary" size="small">
+                <li onClick={handleBuySelectModal} className="py-[5px] px-4 flex flex-col gap-2 items-center">
+                    <Button color="primary" size="small">
                         <USDIcon />
                     </Button>
                     <span className="text-sm text-center">{t('buy')}</span>
@@ -69,7 +69,7 @@ const WalletActions = () => {
                     <span className="text-sm text-center">{t('send')}</span>
                 </li>
                 <div className="w-px h-[53px] bg-placeholder-primary bg-opacity-10" />
-                <li className="py-[5px] px-4 flex flex-col gap-2 items-center">
+                <li onClick={() => modalStore.openReceiveModal()} className="py-[5px] px-4 flex flex-col gap-2 items-center">
                     <Button color="primary" size="small">
                         <ArrowIcon direction="Down" />
                     </Button>
