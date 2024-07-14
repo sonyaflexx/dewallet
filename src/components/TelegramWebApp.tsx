@@ -14,7 +14,7 @@ const TelegramWebApp = () => {
       setTheme();
 
       return () => {
-        tg.offEvent('themeChanged', setTheme); 
+        tg.offEvent('themeChanged', setTheme); // Cleanup on component unmount
       };
     }
   }, []);
@@ -24,7 +24,8 @@ const TelegramWebApp = () => {
       const tg = window.Telegram.WebApp;
       const theme = tg.themeParams;
 
-      // tg.setBackground("#222325");
+      // Set background color according to the theme
+      tg.setBackground("#222325");
     }
   };
 
