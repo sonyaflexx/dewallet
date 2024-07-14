@@ -2,6 +2,7 @@
 
 import tokenStore from '@/store/TokenStore';
 import { observer } from 'mobx-react';
+import Image from 'next/image';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
