@@ -21,7 +21,7 @@ export const useImportWallet = () => {
         mnemonic: {
           phrase: mnemonics.join(' ')
         },
-        address: wallet.address,
+        address: wallet.address.toString,
         privateKey: Array.prototype.map.call(keyPairResult.secretKey, x => ('00' + x.toString(16)).slice(-2)).join('')
       };
 
