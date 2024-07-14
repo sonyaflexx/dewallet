@@ -69,7 +69,6 @@ export default function Providers({ children }: { children: ReactNode }) {
   return (
     <I18nextProvider i18n={i18n} defaultNS={'common'}>
       <Provider {...{ WalletStore }}>
-        <TelegramWebApp />
         <TokenSelectModal />
         <BuyAmountModal />
         {children}
