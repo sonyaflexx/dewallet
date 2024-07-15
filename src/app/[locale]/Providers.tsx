@@ -35,6 +35,8 @@ export default function Providers({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (typeof window !== 'undefined' && window.Telegram && window.Telegram.WebApp) {
       const webApp = window.Telegram.WebApp;
+      webApp.themeParams.bg_color='#222328'
+      webApp.themeParams.section_bg_color='#222328'
       webApp.themeParams.secondary_bg_color='#222328'
       webApp.setHeaderColor('#222328');
       webApp.setBackgroundColor('#222328')
