@@ -36,7 +36,7 @@ export default function Home() {
           <Checkbox value={agree} setValue={setAgree} />
           <Link href={'/disclaimer'} className={`text-sm underline transition-colors duration-300`}>{t('policyLot')}</Link>
         </div>
-        <div className="w-full flex flex-col gap-2 my-5">
+        <div className="w-full flex flex-col gap-2 mt-5 mb-8">
           <Button size="large" color="primary" href={'/auth/wallet/create'} disabled={agree ? false : true}>{t('createWallet')}</Button>
           <Button size="large" color="secondary" href={'/auth/wallet/import'} disabled={agree ? false : true}>{t('importWallet')}</Button>
         </div>
