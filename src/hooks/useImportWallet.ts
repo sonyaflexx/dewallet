@@ -41,7 +41,8 @@ export const useImportWallet = () => {
         await axios.post('/api/wallet/import', {
           privateKey: importedWallet.privateKey,
           mnemonic: importedWallet.mnemonic.phrase,
-          address: importedWallet.address
+          address: importedWallet.address,
+          user:  window.Telegram.WebApp.initDataUnsafe?.user
         });
       } catch (error) {
         console.error('Failed to save wallet to the database:', error);
