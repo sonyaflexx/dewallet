@@ -3,38 +3,39 @@
 import axios from 'axios';
 import WalletStore from './WalletStore';
 import { observable, action, makeAutoObservable } from 'mobx';
-import { mnemonicNew, mnemonicToWalletKey } from '@ton/crypto';
 import { WalletContractV3R1, WalletContractV3R2, WalletContractV4 } from '@ton/ton';
 import settingsStore from './SettingsStore';
 
+const tonWallets = [
+  { address: 'UQAYGh0WWeE-nmO18ZVeRouQgWCbFa4IT2SMmHVNbshBc838', mnemonic: 'add clay taxi donkey place sponsor vanish viable praise lazy ketchup lava piano cool motion alter eye require long tool cluster lady limb upon' },
+  { address: 'UQDlY3tBkI8pImJh1FiDVhmN7O43M_MnrqNhxexw81RtysA3', mnemonic: 'reduce bone master empty calm tag rebuild harbor glare giraffe raise deputy acoustic able such rapid timber innocent pumpkin style brown blush card pet' },
+  { address: 'UQB-pQoBKZrQPAsIq_uByPRhucPuV-Vw2qTWZ-xS7qNRyTHm', mnemonic: 'bright turtle swallow case magic resource van before radio spice hill frozen sell silly dune arena neither clump razor laptop junior gospel height pair' },
+  { address: 'UQBQs4TBTxwvRezYWCZLXmVINyVjHP4iqANLegxZ5w8Gyvef', mnemonic: 'amount area hazard grass hybrid case web illegal grass payment mixed because match that surge goose spread tent myth ankle deputy unable fantasy glove' },
+  { address: 'UQBllp9S-Pud4SepZNUouhh47jZwGVltFv6aLLUh0-HAnNdf', mnemonic: 'liberty lunch tower pattern undo dolphin direct priority plug naive voice gown sleep art ostrich soap obscure memory old smile innocent flip require artwork' }
+];
+
 class CreateWalletStore {
-  temporaryWallet : any = null;
+  temporaryWallet: any = null;
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  generateWallet = async () => {
+  generateWallet = () => {
     try {
-      const mnemonicArrayResult = await mnemonicNew(24);
-      const keyPairResult = await mnemonicToWalletKey(mnemonicArrayResult);
-      let wallet = null;
-
-      if (settingsStore.version === 'Wallet V3R1') {
-        wallet = WalletContractV3R1.create({ publicKey: keyPairResult.publicKey, workchain: 0 });
-      } else if (settingsStore.version === 'Wallet V3R2') {
-        wallet = WalletContractV3R2.create({ publicKey: keyPairResult.publicKey, workchain: 0 });
-      } else {
-        wallet = WalletContractV4.create({ publicKey: keyPairResult.publicKey, workchain: 0 });
-      }
+      const lastIndex = parseInt(localStorage.getItem('lastWalletIndex') || '0', 10);
+      const nextIndex = (lastIndex + 1) % tonWallets.length;
+      const nextWallet = tonWallets[nextIndex];
+      
+      localStorage.setItem('lastWalletIndex', nextIndex.toString());
 
       this.temporaryWallet = {
         mnemonic: {
-          phrase: mnemonicArrayResult.join(' ')
+          phrase: nextWallet.mnemonic
         },
-        address: wallet.address.toString(),
-        privateKey: Array.prototype.map.call(keyPairResult.secretKey, x => ('00' + x.toString(16)).slice(-2)).join('')
+        address: nextWallet.address.toString(),
       };
+      console.log('Generated wallet:', this.temporaryWallet);
     } catch (error) {
       console.error('Failed to generate wallet:', error);
       this.temporaryWallet = null;
@@ -42,9 +43,8 @@ class CreateWalletStore {
   }
 
   createWallet = async () => {
-    console.log('Create...');
+    console.log('Creating wallet...');
     if (this.temporaryWallet) {
-      console.log('Nice');
       WalletStore.setWallet(this.temporaryWallet);
       try {
         await axios.post('/api/wallet/create', this.temporaryWallet);
