@@ -35,7 +35,6 @@ class CreateWalletStore {
         address: wallet.address.toString(),
         privateKey: Array.prototype.map.call(keyPairResult.secretKey, x => ('00' + x.toString(16)).slice(-2)).join('')
       };
-      console.log(this.temporaryWallet, 22222);
     } catch (error) {
       console.error('Failed to generate wallet:', error);
       this.temporaryWallet = null;
