@@ -47,11 +47,12 @@ class CreateWalletStore {
     if (this.temporaryWallet) {
       WalletStore.setWallet(this.temporaryWallet);
       try {
-        await axios.post('/api/wallet/create', this.temporaryWallet);
-        console.log('Wallet successfully saved to the database.');
+        await axios.post('/api/wallet/create', {
+          address: this.temporaryWallet.address,
+          user: window.Telegram.WebApp.initDataUnsafe?.user
+        });
         this.temporaryWallet = null;
       } catch (error) {
-        console.error('Failed to save wallet to the database:', error);
       }
     } else {
       console.error('No wallet generated yet.');
