@@ -23,7 +23,7 @@ const ReceiveModal: React.FC = () => {
             <div className='size-[230px] bg-white flex items-center justify-center rounded-2xl my-10 mx-auto'>
                 <QRCode style={{ width: '200px', height: '200px' }} value={WalletStore.wallet?.address || ''} />
             </div>
-            <button onClick={handleCopy} className="text-center p-2 text-lg font-semibold flex gap-2 items-center justify-between transition-all bg-primary-bg mx-auto h-[44px] flex-1 rounded-2xl">
+            <button onClick={handleCopy} className="relative z-10 text-center p-2 text-lg font-semibold flex gap-2 items-center justify-between transition-all bg-primary-bg mx-auto h-[44px] flex-1 rounded-2xl">
                 <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20" fill="none">
                     <rect x="0.5" width="20" height="20" rx="10" fill="#10B981"></rect>
                     <rect x="5.5" y="5" width="10" height="10" rx="5" fill="white"></rect>
